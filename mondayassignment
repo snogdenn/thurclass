@@ -1,0 +1,47 @@
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(readr)
+heart <- read_csv("~/Demo1/Evidence Based /heart.csv")
+View(heart)
+
+womenmen <- heart$sex
+cholesterol <- heart$chol
+
+```
+
+
+```{r echo=FALSE}
+hist(cholesterol[womenmen == 0], main = "Cholesterol in Women", xlab = "Cholesterol")
+```
+
+```{r}
+hist(cholesterol[womenmen == 1], main = "Cholesterol in Men", xlab = "Cholesterol")
+```
+
+```{r}
+hist(log(cholesterol[womenmen == 1]), main = "LogCholesterol in Men", xlab = "LogCholesterol")
+```
+
+```{r}
+hist(log(cholesterol[womenmen == 0]), main = "LogCholesterol in Women", xlab = "LogCholesterol")
+```
+
+
+#Question 2: Write a one-sentence comment explaining whether you plan to consider the original or log-transferred data and why? 
+ #I plan to consider the orginial data because it would follow a normal distribution. This means that it will represent the actual measurements. 
+#Question 3: Use t.test to perform Welch's t-test comparing the cholesterol in men and women on either the original or log-transformed data, depending on what you chose
+```{r}
+chol_men <- heart$chol[heart$sex == 1]
+
+chol_women <- heart$chol[heart$sex == 0]
+
+ttestresult <- t.test(chol_men, chol_women, alternative = "two.sided")
+print(ttestresult)
+```
+
+#Question 4: Write a one-sentence comment that states the p-value obtained from the t-test and whether it's significant at a significance level of 0.05
+  #The p-value of the t-test is 0.002985. This would make it a non significant t-test. 
+
+#Question 5: Write a one-sentence comment that interprets the p-values
+  #Because the p-value is 0.002985, that means that there would be a higher chance to reject the null and that means that there is a large difference between cholesterol level averages amongst men and women in this data set.  
